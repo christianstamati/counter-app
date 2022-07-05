@@ -1,2 +1,2 @@
-# unity-continuous-integration-demo
+# Counter CI
 Test game ci for continuous integration
