@@ -1,2 +1,2 @@
-# Counter CI
-Test game ci for continuous integration
+# Counter App
+Developing a counter application with game-ci

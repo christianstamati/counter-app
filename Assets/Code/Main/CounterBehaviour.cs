@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Code
+namespace CounterApp.Main
 {
     public class CounterBehaviour : MonoBehaviour
     {
         public int count;
-        public UnityEvent<string> onCountUpdated;
+        public UnityEvent<string> onCountUpdated = new ();
 
         private void Start()
         {
