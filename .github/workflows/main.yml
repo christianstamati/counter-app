@@ -14,6 +14,14 @@ jobs:
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
         run: exit 1
 
+  testRunner:
+    needs: checkLicense
+    name: Test all modes
+    runs-on: ubuntu-latest
+    steps:
+      name: Checkout code
+      uses: actions/checkout@v2
+
 
 #  testRunner:
 #    needs: checkLicense
@@ -57,34 +65,3 @@ jobs:
 #        with:
 #          name: Test results (all modes)
 #          path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-
-
-jobs:
-  buildForAllSupportedPlatforms:
-    name: Build for ${{ matrix.targetPlatform }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        targetPlatform:
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
-    steps:
-      - uses: actions/checkout@v2 # Cloning the master branch of your repository.
-        with:
-          fetch-depth: 0
-          lfs: true
-      - uses: actions/cache@v2 # Caches libraries, binaries and static assets
-        with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: Library-
-      - uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        with:
-          targetPlatform: ${{ matrix.targetPlatform }}
-      - uses: actions/upload-artifact@v2 # Upload buld in github
-        with:
-          name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
