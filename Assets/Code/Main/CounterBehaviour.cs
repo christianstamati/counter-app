@@ -15,8 +15,8 @@ namespace CounterApp.Main
 
         public void OnAdd()
         {
-            count++;
-            onCountUpdated?.Invoke(count.ToString());
+            // count++;
+            // onCountUpdated?.Invoke(count.ToString());
         }
     }
 }
