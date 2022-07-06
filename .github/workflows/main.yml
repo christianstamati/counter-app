@@ -83,7 +83,7 @@ jobs:
             Library-build-
             Library-
 
-      - uses: webbertakken/unity-builder@v2
+      - uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
 
@@ -127,7 +127,7 @@ jobs:
            Library-build-
            Library-
 
-     - uses: webbertakken/unity-builder@v2
+     - uses: game-ci/unity-builder@v2
        with:
          targetPlatform: StandaloneWindows64
 
