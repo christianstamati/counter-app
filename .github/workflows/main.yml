@@ -6,26 +6,17 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  checkLicense:
-    name: Check for the Unity license ☑️
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fail - No license ☠️
-        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
-        run: exit 1
-
   testRunner:
-    needs: checkLicense
-    name: Test all modes
+    name: Test all modes 📝
     runs-on: ubuntu-latest
     steps:
-     - name: Checkout code
+     - name: Checkout code # Checking out our code
        uses: actions/checkout@v2
 
-     - name: Create LFS file list
+     - name: Create LFS file list # Caching any large file so we don't have to wait for github to download LF
        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
-     - name: Restore LFS cache
+     - name: Restore LFS cache # Caching unity editor files in Library
        uses: actions/cache@v2
        id: lfs-cache
        with:
@@ -47,7 +38,7 @@ jobs:
            Library-test-project-
            Library-
 
-     - uses: game-ci/unity-test-runner@v2
+     - uses: gameci/unity-test-runner@v2 # Running all test modes
        id: testRunner
        with:
          testMode: all
@@ -56,47 +47,3 @@ jobs:
        with:
          name: Test results (all modes)
          path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-
-#  testRunner:
-#    needs: checkLicense
-#    name: Test all modes 📝
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
-#      - name: Create LFS file list
-#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
-#
-#      - name: Restore LFS cache
-#        uses: actions/cache@v2
-#        id: lfs-cache
-#        with:
-#          path: .git/lfs
-#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
-#
-#      - name: Git LFS Pull
-#        run: |
-#          git lfs pull
-#          git add .
-#          git reset --hard
-#
-#      - name: Restore Library cache
-#        uses: actions/cache@v2
-#        with:
-#          path: Library
-#          key: Library-test-project
-#          restore-keys: |
-#            Library-test-project-
-#            Library-
-#
-#      - uses: webbertakken/unity-test-runner@v2
-#        id: testRunner
-#        with:
-#          testMode: all
-#
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: Test results (all modes)
-#          path: ${{ steps.testRunner.outputs.artifactsPath }}
