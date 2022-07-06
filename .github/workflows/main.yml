@@ -38,7 +38,7 @@ jobs:
            Library-test-project-
            Library-
 
-     - uses: gameci/unity-test-runner@v2 # Running all test modes
+     - uses: game-ci/unity-test-runner@v2 # Running all test modes
        id: testRunner
        with:
          testMode: all
